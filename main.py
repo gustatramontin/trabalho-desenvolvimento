@@ -3,6 +3,7 @@ from pygame.locals import *
 
 from minigames.interface import Interface
 from minigames.snake import Snake
+from minigames.obstacles import Obstacles
 from minigames.velha import Velha
 from minigames.paint import Paint
 
@@ -27,15 +28,17 @@ clock = pygame.time.Clock()
 games = {
     "interface": Interface(pygame, screen, clock),
     "snake": Snake(pygame, screen, clock, CAP),
+    "obstacles": Obstacles(pygame, screen, clock, CAP),
     "velha": Velha(pygame, screen, clock),
     "paint": Paint(pygame, screen, clock, CAP)
 }
 
-gameRunning = "snake"
+gameRunning = "obstacles"
 
 running = True
 is_key_pressed = False
 pressed_key = None
+mouse_position = None
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -43,7 +46,11 @@ while running:
             running = False
         if event.type == KEYDOWN:
             pressed_key = pygame.key.name(event.key)
-            is_key_pressed = True            
+            is_key_pressed = True       
+
+        if event.type == pygame.MOUSEMOTION:
+            mouse_position = pygame.mouse.get_pos()
+
     
     screen.fill(WHITE)
     """
@@ -52,13 +59,14 @@ while running:
     pygame.draw.ellipse(screen, BLACK, [20,20,250,100], 2)
     """
 
-    games[gameRunning].run(pressed_key)
+    games[gameRunning].run(pressed_key, mouse_position)
 
     pygame.display.flip()
 
     clock.tick(15)
 
     pressed_key = None
+    mouse_position = None
 
      
 pygame.quit()

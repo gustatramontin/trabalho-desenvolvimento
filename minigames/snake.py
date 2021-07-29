@@ -1,5 +1,4 @@
 from .game import Minigame
-import numpy as np
 
 import cv2
 import mediapipe as mp
@@ -32,7 +31,7 @@ class Snake(Minigame):
         self.mpDraw = mp.solutions.drawing_utils
 
         
-    def run(self, key):
+    def run(self, key, mouse):
         if key != None:
             self.handleKey(key)
 
@@ -132,7 +131,7 @@ class Snake(Minigame):
 
         self.drawImage(img, (0,0))
         
-        self.drawTransparentRect((130,184,139,230),(self.size[0],self.size[1]), (0,0))
+        self.drawTransparentRect((130,184,139,100),(self.size[0],self.size[1]), (0,0))
 
         self.draw((200, 0,0), (self.fruit_pos[0], self.fruit_pos[1], self.snake_size*0.60, self.snake_size*0.60))
 
