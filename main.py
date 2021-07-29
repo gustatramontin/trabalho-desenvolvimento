@@ -4,6 +4,9 @@ from pygame.locals import *
 from minigames.interface import Interface
 from minigames.snake import Snake
 from minigames.velha import Velha
+from minigames.paint import Paint
+
+import cv2
 
 pygame.init()
 
@@ -14,29 +17,33 @@ RED = ( 255, 0, 0)
 
 size = (700, 500)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("My First Game")
+pygame.display.set_caption("Mini-Jeux")
+
+CAP = cv2.VideoCapture(0)
+
 
 clock = pygame.time.Clock()
 
 games = {
     "interface": Interface(pygame, screen, clock),
-    "snake": Snake(pygame, screen, clock),
-    "velha": Velha(pygame, screen, clock)
+    "snake": Snake(pygame, screen, clock, CAP),
+    "velha": Velha(pygame, screen, clock),
+    "paint": Paint(pygame, screen, clock, CAP)
 }
 
-gameRunning = "velha"
+gameRunning = "snake"
 
 running = True
 is_key_pressed = False
-
+pressed_key = None
 while running:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
+        if event.type == pygame.QUIT:
+            games[gameRunning].stop()
             running = False
         if event.type == KEYDOWN:
             pressed_key = pygame.key.name(event.key)
-            is_key_pressed = True
-            print(pressed_key)
+            is_key_pressed = True            
     
     screen.fill(WHITE)
     """
@@ -45,11 +52,13 @@ while running:
     pygame.draw.ellipse(screen, BLACK, [20,20,250,100], 2)
     """
 
-    games[gameRunning].run()
+    games[gameRunning].run(pressed_key)
 
     pygame.display.flip()
 
-    clock.tick(60)
+    clock.tick(15)
+
+    pressed_key = None
 
      
 pygame.quit()
