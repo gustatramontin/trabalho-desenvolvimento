@@ -1,5 +1,0 @@
-/home/gustavo/Documents/IFC/desenvolvimento/projeto/cpp/build/CMakeFiles/rebuild_cache.dir
-/home/gustavo/Documents/IFC/desenvolvimento/projeto/cpp/build/CMakeFiles/edit_cache.dir
-/home/gustavo/Documents/IFC/desenvolvimento/projeto/cpp/build/CMakeFiles/test.dir
-/home/gustavo/Documents/IFC/desenvolvimento/projeto/cpp/build/pybind11/CMakeFiles/rebuild_cache.dir
-/home/gustavo/Documents/IFC/desenvolvimento/projeto/cpp/build/pybind11/CMakeFiles/edit_cache.dir
