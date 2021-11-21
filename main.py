@@ -6,6 +6,7 @@ from minigames.snake import Snake
 from minigames.obstacles import Obstacles
 from minigames.velha import Velha
 from minigames.paint import Paint
+from minigames.shapes import Shapes
 
 import cv2
 
@@ -25,32 +26,52 @@ CAP = cv2.VideoCapture(0)
 
 clock = pygame.time.Clock()
 
+def switch_game(game):
+    global gameRunning
+    if game in games.keys():
+        gameRunning = game
+
 games = {
-    "interface": Interface(pygame, screen, clock),
-    "snake": Snake(pygame, screen, clock, CAP),
+    "interface": Interface(pygame, screen, clock, switch_game),
+    "snake": Snake(pygame, screen, clock, CAP, switch_game),
     "obstacles": Obstacles(pygame, screen, clock, CAP),
     "velha": Velha(pygame, screen, clock),
-    "paint": Paint(pygame, screen, clock, CAP)
+    "paint": Paint(pygame, screen, clock, CAP),
+    "shapes": Shapes(pygame, screen, clock)
 }
 
-gameRunning = "obstacles"
+gameRunning = "interface"
 
 running = True
 is_key_pressed = False
 pressed_key = None
 mouse_position = None
+
 while running:
+
+    time_delta = clock.tick(15) / 1000.0
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             games[gameRunning].stop()
             running = False
         if event.type == KEYDOWN:
             pressed_key = pygame.key.name(event.key)
-            is_key_pressed = True       
+            is_key_pressed = True
+
+            if (pressed_key == 'q'):
+                if gameRunning != "interface":
+                    switch_game("interface")
+                else:
+                    running = False
 
         if event.type == pygame.MOUSEMOTION:
             mouse_position = pygame.mouse.get_pos()
 
+        if games[gameRunning].hasCustomEvent:
+            games[gameRunning].customEvent(event)
+
+        #ui_manager.process_events(event)
     
     screen.fill(WHITE)
     """
@@ -61,9 +82,13 @@ while running:
 
     games[gameRunning].run(pressed_key, mouse_position)
 
-    pygame.display.flip()
+    """
+    if gameRunning == "interface":
+        ui_manager.update(time_delta)
+        ui_manager.draw_ui(screen)
+    """
 
-    clock.tick(15)
+    pygame.display.flip()
 
     pressed_key = None
     mouse_position = None

@@ -1,5 +1,6 @@
 pygame==2.0.1
 numpy
 pandas
+sklearn
 mediapipe
-cv2
+opencv-contrib-python

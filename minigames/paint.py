@@ -13,7 +13,7 @@ class Paint(Minigame):
         super().__init__(pygame, screen, clock)
         self.direction = None
         self.size = screen.get_size()
-        print(self.size)
+
         self.sub_canvas = []
         self.canvas = []
         self.cap = cap
